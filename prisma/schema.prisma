@@ -1,9 +1,3 @@
-model Usuario {
-  id        Int      @id @default(autoincrement())
-  nombre    String   @unique
-  password  String
-  createdAt DateTime @default(now())
-}
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
