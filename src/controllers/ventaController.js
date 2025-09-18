@@ -7,15 +7,19 @@ exports.listar = async (req, res) => {
 };
 
 exports.crear = async (req, res) => {
-  const { detalles, ...venta } = req.body;
-  const nuevaVenta = await prisma.venta.create({
-    data: {
-      ...venta,
-      detalles: {
-        create: detalles,
-      },
-    },
-    include: { detalles: true },
-  });
-  res.json(nuevaVenta);
+  try {
+    const { total, createdAt } = req.body;
+    if (total === undefined || createdAt === undefined || total < 0) {
+      return res.status(400).send('Todos los campos son requeridos y los valores numéricos no pueden ser negativos.');
+    }
+    await prisma.venta.create({
+      data: {
+        total: parseFloat(total),
+        createdAt: new Date(createdAt)
+      }
+    });
+    res.redirect('/ventas');
+  } catch (err) {
+    res.status(500).send('Error al crear venta');
+  }
 };

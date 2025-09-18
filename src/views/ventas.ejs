@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ventas</title>
+  <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../public/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Ventas</h1>
+    <a href="/" class="btn btn-secondary">Volver al inicio</a>
+
+  <form action="/api/ventas" method="POST" class="mb-4" id="form-venta">
+      <div class="row">
+        <div class="col-md-4">
+          <input type="number" name="total" class="form-control" placeholder="Total" min="0" required>
+        </div>
+        <div class="col-md-4">
+          <input type="datetime-local" name="createdAt" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-success w-100">Agregar</button>
+        </div>
+      </div>
+    </form>
+    <script src="../public/js/form-venta.js"></script>
+      <table class="table mt-3">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Total</th>
+            <th>Fecha</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tabla-ventas">
+          <% if (ventas && ventas.length) { %>
+            <% ventas.forEach(venta => { %>
+              <tr data-id="<%= venta.id %>">
+                <td><%= venta.id %></td>
+                <td><%= venta.total %></td>
+                <td><%= venta.createdAt ? new Date(venta.createdAt).toLocaleString() : '' %></td>
+                <td>
+                  <button type="button" class="btn btn-danger btn-sm eliminar-venta">Eliminar</button>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr><td colspan="3">No hay ventas</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+  </div>
+</body>
+</html>

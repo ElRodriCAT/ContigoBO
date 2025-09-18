@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos</title>
+  <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../public/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Productos</h1>
+    <a href="/" class="btn btn-secondary">Volver al inicio</a>
+
+  <form action="/api/productos" method="POST" class="mb-4" id="form-producto">
+      <div class="row">
+        <div class="col-md-4">
+          <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+        </div>
+        <div class="col-md-3">
+          <input type="number" name="precio" class="form-control" placeholder="Precio" min="0" required>
+        </div>
+        <div class="col-md-3">
+          <input type="number" name="stock" class="form-control" placeholder="Stock" min="0" required>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary w-100">Agregar</button>
+        </div>
+      </div>
+    </form>
+    <script src="../public/js/form-producto.js"></script>
+      <table class="table mt-3">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-productos">
+          <% if (productos && productos.length) { %>
+            <% productos.forEach(producto => { %>
+              <tr data-id="<%= producto.id %>">
+                <td><%= producto.id %></td>
+                <td><%= producto.nombre %></td>
+                <td><%= producto.precio %></td>
+                <td><%= producto.stock %></td>
+                <td>
+                  <button type="button" class="btn btn-danger btn-sm eliminar-producto">Eliminar</button>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr><td colspan="4">No hay productos</td></tr>
+          <% } %>
+        </tbody>
+    </table>
+    <script src="../public/js/productos.js"></script>
+  </div>
+</body>
+</html>

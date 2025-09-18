@@ -7,8 +7,22 @@ exports.listar = async (req, res) => {
 };
 
 exports.crear = async (req, res) => {
-  const nuevo = await prisma.producto.create({ data: req.body });
-  res.json(nuevo);
+  try {
+    const { nombre, precio, stock } = req.body;
+    if (!nombre || precio === undefined || stock === undefined || precio < 0 || stock < 0) {
+      return res.status(400).send('Todos los campos son requeridos y los valores numéricos no pueden ser negativos.');
+    }
+    await prisma.producto.create({
+      data: {
+        nombre,
+        precio: parseFloat(precio),
+        stock: parseInt(stock)
+      }
+    });
+    res.redirect('/productos');
+  } catch (err) {
+    res.status(500).send('Error al crear producto');
+  }
 };
 
 exports.actualizar = async (req, res) => {
