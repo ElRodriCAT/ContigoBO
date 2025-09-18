@@ -1,0 +1,27 @@
+-- CreateTable
+CREATE TABLE "Producto" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "nombre" TEXT NOT NULL,
+    "precio" REAL NOT NULL,
+    "stock" INTEGER NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Venta" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "fecha" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "total" REAL NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "DetalleVenta" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "productoId" INTEGER NOT NULL,
+    "ventaId" INTEGER NOT NULL,
+    "cantidad" INTEGER NOT NULL,
+    "precio" REAL NOT NULL,
+    CONSTRAINT "DetalleVenta_productoId_fkey" FOREIGN KEY ("productoId") REFERENCES "Producto" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "DetalleVenta_ventaId_fkey" FOREIGN KEY ("ventaId") REFERENCES "Venta" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
