@@ -9,25 +9,3 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
-document.addEventListener('DOMContentLoaded', async () => {
-  const tabla = document.getElementById('tabla-productos');
-  try {
-    const res = await fetch('/productos');
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-    }
-    const productos = await res.json();
-    productos.forEach(producto => {
-      const fila = document.createElement('tr');
-      fila.innerHTML = `
-        <td>${producto.id}</td>
-        <td>${producto.nombre}</td>
-        <td>${producto.precio}</td>
-        <td>${producto.stock}</td>
-      `;
-      tabla.appendChild(fila);
-    });
-  } catch (err) {
-    tabla.innerHTML = `<tr><td colspan="4">Error al cargar productos: ${err.message}</td></tr>`;
-  }
-});
