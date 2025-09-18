@@ -7,10 +7,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutas
+
 const productoRoutes = require('./routes/producto');
 const ventaRoutes = require('./routes/venta');
+const usuarioRoutes = require('./routes/usuario');
+
 app.use('/productos', productoRoutes);
 app.use('/ventas', ventaRoutes);
+app.use('/usuarios', usuarioRoutes);
 
 // Vista principal
 app.get('/', (req, res) => {

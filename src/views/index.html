@@ -3,14 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Backoffice Comida Rápida</title>
+  <title>Contigo Burguers</title>
   <link href="../public/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
   <div class="container mt-4">
-    <h1>Backoffice Comida Rápida</h1>
-    <a href="/productos" class="btn btn-primary">Productos</a>
-    <a href="/ventas" class="btn btn-success">Ventas</a>
+    <h1>Contigo Burguers Backoffice</h1>
+    <div id="loginContainer">
+      <h2>Login</h2>
+      <form id="formLogin" class="mb-3">
+        <div class="mb-2">
+          <input type="text" id="loginUsuario" class="form-control" placeholder="Usuario" required>
+        </div>
+        <div class="mb-2">
+          <input type="password" id="loginPassword" class="form-control" placeholder="Contraseña" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+      </form>
+      <div id="loginMsg"></div>
+    </div>
+    <div id="appContainer" style="display:none;">
+      <button id="btnProductos" class="btn btn-primary">Productos</button>
+      <button id="btnVentas" class="btn btn-success">Ventas</button>
+      <div id="contenido" class="mt-4"></div>
+      <hr>
+      <h2>Crear Usuario</h2>
+      <form id="formUsuario" class="mb-3">
+        <div class="mb-2">
+          <input type="text" id="nombreUsuario" class="form-control" placeholder="Nombre de usuario" required>
+        </div>
+        <div class="mb-2">
+          <input type="password" id="passwordUsuario" class="form-control" placeholder="Contraseña" required>
+        </div>
+        <button type="submit" class="btn btn-secondary">Crear usuario</button>
+      </form>
+      <div id="usuarioMsg"></div>
+    </div>
+    <script>
+      // Login
+      document.getElementById('formLogin').onsubmit = async function(e) {
+        e.preventDefault();
+        const nombre = document.getElementById('loginUsuario').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        document.getElementById('loginMsg').innerHTML = '';
+        if (!nombre || !password) {
+          document.getElementById('loginMsg').innerHTML = '<div class="alert alert-warning">Completa todos los campos</div>';
+          return;
+        }
+        try {
+          const res = await fetch('http://localhost:3000/usuarios/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, password })
+          });
+          const data = await res.json();
+          if (res.ok && data.ok) {
+            document.getElementById('loginMsg').innerHTML = '<div class="alert alert-success">Ingreso exitoso</div>';
+            setTimeout(() => {
+              document.getElementById('loginContainer').style.display = 'none';
+              document.getElementById('appContainer').style.display = '';
+              document.getElementById('loginMsg').innerHTML = '';
+            }, 700);
+          } else {
+            document.getElementById('loginMsg').innerHTML = `<div class="alert alert-danger">${data.error || 'Error de autenticación'}</div>`;
+          }
+        } catch (err) {
+          document.getElementById('loginMsg').innerHTML = '<div class="alert alert-danger">No se pudo conectar al servidor</div>';
+        }
+        document.getElementById('formLogin').reset();
+      }
+      // Productos y ventas
+      async function cargarProductos() {
+        const res = await fetch('http://localhost:3000/productos');
+        const productos = await res.json();
+        let html = '<h2>Productos</h2><table class="table"><thead><tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Stock</th></tr></thead><tbody>';
+        productos.forEach(p => {
+          html += `<tr><td>${p.id}</td><td>${p.nombre}</td><td>${p.precio}</td><td>${p.stock}</td></tr>`;
+        });
+        html += '</tbody></table>';
+        document.getElementById('contenido').innerHTML = html;
+      }
+      async function cargarVentas() {
+        const res = await fetch('http://localhost:3000/ventas');
+        const ventas = await res.json();
+        let html = '<h2>Ventas</h2><table class="table"><thead><tr><th>ID</th><th>Fecha</th><th>Total</th></tr></thead><tbody>';
+        ventas.forEach(v => {
+          html += `<tr><td>${v.id}</td><td>${new Date(v.fecha).toLocaleString()}</td><td>${v.total}</td></tr>`;
+        });
+        html += '</tbody></table>';
+        document.getElementById('contenido').innerHTML = html;
+      }
+      document.getElementById('btnProductos').onclick = cargarProductos;
+      document.getElementById('btnVentas').onclick = cargarVentas;
+      // Crear usuario
+      document.getElementById('formUsuario').onsubmit = async function(e) {
+        e.preventDefault();
+        const nombre = document.getElementById('nombreUsuario').value;
+        const password = document.getElementById('passwordUsuario').value;
+        const res = await fetch('http://localhost:3000/usuarios', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombre, password })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          document.getElementById('usuarioMsg').innerHTML = '<div class="alert alert-success">Usuario creado correctamente</div>';
+        } else {
+          document.getElementById('usuarioMsg').innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+        }
+        document.getElementById('formUsuario').reset();
+      }
+    </script>
   </div>
 </body>
 </html>
