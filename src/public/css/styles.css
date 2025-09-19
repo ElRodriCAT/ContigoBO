@@ -1,2 +1,19 @@
 
 /* Archivo CSS listo para tus estilos personalizados */
+*{
+    background-color: beige;
+}
+h1{
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.custom-card {
+      max-width: 300px;
+      transition: transform 0.2s ease-in-out;
+      border: none;
+    }
+
+
+.custom-card:hover {
+      transform: translateY(-5px);
+    }

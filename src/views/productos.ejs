@@ -11,7 +11,7 @@
 
   <div>
     <h1>Productos</h1>
-    <a href="/">Volver al inicio</a>
+    <a type="button" class="btn btn-info" href="/">Volver al inicio</a>
 
     <form action="/api/productos" method="POST" id="form-producto">
       <div>
@@ -33,13 +33,13 @@
       </div>
     </form>
 
-    <table>
+    <table class="table table-success table-striped-columns">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Precio</th>
-          <th>Stock</th>
+          <th scope="col">ID</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Stock</th>
           <th></th>
         </tr>
       </thead>
