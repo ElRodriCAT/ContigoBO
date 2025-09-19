@@ -1,6 +1,6 @@
 
 /* Archivo CSS listo para tus estilos personalizados */
-*{
+*, body{
     background-color: beige;
 }
 h1{

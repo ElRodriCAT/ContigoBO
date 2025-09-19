@@ -59,12 +59,12 @@
     </script>
     <script src="/js/form-venta.js"></script>
     
-    <table>
+    <table class="table table-success">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Total</th>
           <th>Fecha</th>
+          <th>Total</th>
           <th></th>
         </tr>
       </thead>
@@ -73,8 +73,8 @@
           <% ventas.forEach(venta => { %>
             <tr data-id="<%= venta.id %>">
               <td><%= venta.id %></td>
-              <td><%= venta.total %></td>
               <td><%= venta.fecha ? new Date(venta.fecha).toLocaleString() : '' %></td>
+              <td><%= venta.total %></td>
               <td>
                 <button type="button" class="eliminar-venta">Eliminar</button>
               </td>
