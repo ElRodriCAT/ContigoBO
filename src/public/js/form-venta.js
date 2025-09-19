@@ -75,25 +75,25 @@ document.addEventListener('DOMContentLoaded', function() {
     contadorDetalles++;
     
     const detalleDiv = document.createElement('div');
-    detalleDiv.className = 'row mb-2 detalle-item';
+    detalleDiv.className = 'detalle-item';
     detalleDiv.id = `detalle-${contadorDetalles}`;
     
     detalleDiv.innerHTML = `
-      <div class="col-md-4">
-        <select class="form-control producto-select" required>
+      <div>
+        <select class="producto-select" required>
           <option value="">Seleccionar producto...</option>
           ${productos.map(p => `<option value="${p.id}" data-precio="${p.precio}">${p.nombre} - $${p.precio}</option>`).join('')}
         </select>
       </div>
-      <div class="col-md-3">
-        <input type="number" class="form-control cantidad-input" placeholder="Cantidad" min="1" step="1" required>
+      <div>
+        <input type="number" class="cantidad-input" placeholder="Cantidad" min="1" step="1" required>
       </div>
-      <div class="col-md-3">
-        <input type="number" class="form-control precio-input" placeholder="Precio unitario" min="0" step="0.01" required>
+      <div>
+        <input type="number" class="precio-input" placeholder="Precio unitario" min="0" step="0.01" required>
       </div>
-      <div class="col-md-2">
-        <button type="button" class="btn btn-danger btn-sm eliminar-detalle w-100">
-          <i class="fas fa-trash"></i> Eliminar
+      <div>
+        <button type="button" class="eliminar-detalle">
+          Eliminar
         </button>
       </div>
     `;
@@ -176,13 +176,11 @@ document.addEventListener('DOMContentLoaded', function() {
     agregarDetalleBtn.disabled = tieneIncompletos;
     
     if (tieneIncompletos) {
-      agregarDetalleBtn.innerHTML = '<i class="fas fa-clock"></i> Complete el producto actual';
-      agregarDetalleBtn.classList.remove('btn-primary');
-      agregarDetalleBtn.classList.add('btn-secondary');
+      agregarDetalleBtn.innerHTML = 'Complete el producto actual';
+      // Cambiar apariencia del botón cuando esté deshabilitado
     } else {
-      agregarDetalleBtn.innerHTML = '<i class="fas fa-plus"></i> Agregar Producto';
-      agregarDetalleBtn.classList.remove('btn-secondary');
-      agregarDetalleBtn.classList.add('btn-primary');
+      agregarDetalleBtn.innerHTML = 'Agregar Producto';
+      // Restaurar apariencia normal del botón
     }
     
     // Habilitar/deshabilitar botón de crear venta

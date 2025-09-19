@@ -2,7 +2,15 @@ const { PrismaClient } = require('../../generated/prisma');
 const prisma = new PrismaClient();
 
 exports.listar = async (req, res) => {
-  const ventas = await prisma.venta.findMany({ include: { detalles: true } });
+  const ventas = await prisma.venta.findMany({ 
+    include: { 
+      detalles: { 
+        include: { 
+          producto: true 
+        } 
+      } 
+    } 
+  });
   res.json(ventas);
 };
 
@@ -38,7 +46,11 @@ exports.crear = async (req, res) => {
         }
       },
       include: {
-        detalles: true
+        detalles: {
+          include: {
+            producto: true
+          }
+        }
       }
     });
     

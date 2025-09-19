@@ -1,17 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var tabla = document.getElementById('tabla-ventas');
-  if (tabla) {
-    tabla.addEventListener('click', function(e) {
-      if (e.target.classList.contains('eliminar-venta')) {
-        const fila = e.target.closest('tr');
-        const ventaId = fila.getAttribute('data-id');
-        
-        if (confirm('¿Estás seguro de que deseas eliminar esta venta? Esta acción también eliminará todos los detalles asociados.')) {
-          eliminarVenta(ventaId, fila);
-        }
+  console.log('Ventas.js cargado');
+  
+  // Usar delegación de eventos en el documento completo
+  document.addEventListener('click', function(e) {
+    const botonEliminar = e.target.closest('.eliminar-venta');
+    if (botonEliminar) {
+      console.log('Botón eliminar venta clickeado:', botonEliminar);
+      const fila = botonEliminar.closest('tr');
+      const ventaId = fila.getAttribute('data-id');
+      
+      if (confirm('¿Estás seguro de que deseas eliminar esta venta? Esta acción también eliminará todos los detalles asociados.')) {
+        eliminarVenta(ventaId, fila);
       }
-    });
-  }
+    }
+  });
 });
 
 async function eliminarVenta(id, fila) {

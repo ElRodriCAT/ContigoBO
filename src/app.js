@@ -32,7 +32,15 @@ app.get(['/productos', '/productos.html'], async (req, res) => {
 
 
 app.get(['/ventas', '/ventas.html'], async (req, res) => {
-  const ventas = await prisma.venta.findMany({ include: { detalles: true } });
+  const ventas = await prisma.venta.findMany({ 
+    include: { 
+      detalles: { 
+        include: { 
+          producto: true 
+        } 
+      } 
+    } 
+  });
   const productos = await prisma.producto.findMany();
   res.render('ventas', { ventas, productos });
 });
