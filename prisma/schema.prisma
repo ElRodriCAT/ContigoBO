@@ -27,9 +27,9 @@ model Venta {
 
 model DetalleVenta {
   id          Int      @id @default(autoincrement())
-  producto    Producto @relation(fields: [productoId], references: [id])
+  producto    Producto @relation(fields: [productoId], references: [id], onDelete: Restrict)
   productoId  Int
-  venta       Venta    @relation(fields: [ventaId], references: [id])
+  venta       Venta    @relation(fields: [ventaId], references: [id], onDelete: Cascade)
   ventaId     Int
   cantidad    Int
   precio      Float

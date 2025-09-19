@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ventas</title>
-  <link href="../public/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../public/css/styles.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
   <div class="container mt-4">
@@ -15,17 +15,17 @@
   <form action="/api/ventas" method="POST" class="mb-4" id="form-venta">
       <div class="row">
         <div class="col-md-4">
-          <input type="number" name="total" class="form-control" placeholder="Total" min="0" required>
+          <input type="number" name="total" class="form-control" placeholder="Total" min="0" step="0.01" required>
         </div>
         <div class="col-md-4">
-          <input type="datetime-local" name="createdAt" class="form-control" required>
+          <input type="datetime-local" name="fecha" class="form-control" placeholder="Fecha (opcional)">
         </div>
         <div class="col-md-4">
           <button type="submit" class="btn btn-success w-100">Agregar</button>
         </div>
       </div>
     </form>
-    <script src="../public/js/form-venta.js"></script>
+    <script src="/js/form-venta.js"></script>
       <table class="table mt-3">
         <thead>
           <tr>
@@ -41,7 +41,7 @@
               <tr data-id="<%= venta.id %>">
                 <td><%= venta.id %></td>
                 <td><%= venta.total %></td>
-                <td><%= venta.createdAt ? new Date(venta.createdAt).toLocaleString() : '' %></td>
+                <td><%= venta.fecha ? new Date(venta.fecha).toLocaleString() : '' %></td>
                 <td>
                   <button type="button" class="btn btn-danger btn-sm eliminar-venta">Eliminar</button>
                 </td>
@@ -52,7 +52,7 @@
           <% } %>
         </tbody>
       </table>
-    <script src="../public/js/ventas.js"></script>
+    <script src="/js/ventas.js"></script>
   </div>
 </body>
 </html>

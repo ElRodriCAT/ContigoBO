@@ -1,2 +1,22 @@
 body { background: #f8f9fa; }
 .container { margin-top: 40px; }
+
+/* Asegurar que los inputs de tipo number muestren los spinners */
+input[type="number"] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: auto;
+  opacity: 1;
+  height: 22px;
+  margin: 0;
+}
+
+/* Para Firefox */
+input[type="number"] {
+  -moz-appearance: number-input;
+}
