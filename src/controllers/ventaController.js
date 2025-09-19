@@ -9,27 +9,44 @@ exports.listar = async (req, res) => {
 exports.crear = async (req, res) => {
   try {
     console.log('Request body:', req.body);
-    const { total, fecha } = req.body;
-    console.log('Total:', total, 'Fecha:', fecha);
+    const { total, fecha, detalles } = req.body;
+    
+    // Validar que hay detalles
+    if (!detalles || !Array.isArray(detalles) || detalles.length === 0) {
+      return res.status(400).send('Debe agregar al menos un producto a la venta.');
+    }
     
     // Validar total
-    if (total === undefined || total === '' || parseFloat(total) < 0) {
-      return res.status(400).send('El total es requerido y no puede ser negativo.');
+    if (total === undefined || total === '' || parseFloat(total) <= 0) {
+      return res.status(400).send('El total debe ser mayor que cero.');
     }
     
     // Si no hay fecha, usar la fecha actual
     const fechaVenta = fecha && fecha.trim() !== '' ? new Date(fecha) : new Date();
     
-    await prisma.venta.create({
+    // Crear la venta con sus detalles en una transacción
+    const venta = await prisma.venta.create({
       data: {
         total: parseFloat(total),
-        fecha: fechaVenta
+        fecha: fechaVenta,
+        detalles: {
+          create: detalles.map(detalle => ({
+            productoId: parseInt(detalle.productoId),
+            cantidad: parseInt(detalle.cantidad),
+            precio: parseFloat(detalle.precio)
+          }))
+        }
+      },
+      include: {
+        detalles: true
       }
     });
+    
+    console.log('Venta creada:', venta);
     res.redirect('/ventas');
   } catch (err) {
     console.error('Error al crear venta:', err);
-    res.status(500).send('Error al crear venta');
+    res.status(500).send('Error al crear venta: ' + err.message);
   }
 };
 

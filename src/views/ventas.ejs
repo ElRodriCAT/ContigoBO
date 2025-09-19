@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ventas</title>
-  <link href="/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/css/styles.css" rel="stylesheet">
+  <link href="../public/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../public/css/styles.css" rel="stylesheet">
 </head>
 <body>
   <div class="container mt-4">
@@ -13,19 +13,52 @@
     <a href="/" class="btn btn-secondary">Volver al inicio</a>
 
   <form action="/api/ventas" method="POST" class="mb-4" id="form-venta">
-      <div class="row">
-        <div class="col-md-4">
-          <input type="number" name="total" class="form-control" placeholder="Total" min="0" step="0.01" required>
+    <!-- Información general de la venta -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Fecha</label>
+        <input type="datetime-local" name="fecha" class="form-control">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Total</label>
+        <input type="number" name="total" class="form-control" placeholder="0.00" min="0" step="0.01" readonly>
+      </div>
+    </div>
+
+    <!-- Detalles de la venta -->
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5>Detalles de la Venta</h5>
+        <button type="button" class="btn btn-primary btn-sm" id="agregar-detalle">
+          <i class="fas fa-plus"></i> Agregar Producto
+        </button>
+      </div>
+      <div class="card-body">
+        <div id="detalles-container">
+          <!-- Los detalles se agregarán dinámicamente aquí -->
         </div>
-        <div class="col-md-4">
-          <input type="datetime-local" name="fecha" class="form-control" placeholder="Fecha (opcional)">
-        </div>
-        <div class="col-md-4">
-          <button type="submit" class="btn btn-success w-100">Agregar</button>
+        <div id="no-detalles" class="text-muted text-center py-3">
+          No hay productos agregados. Haz clic en "Agregar Producto" para empezar.
         </div>
       </div>
-    </form>
+    </div>
+
+    <!-- Botón de envío -->
+    <div class="row">
+      <div class="col-12">
+        <button type="submit" class="btn btn-success btn-lg w-100" id="btn-crear-venta" disabled>
+          Crear Venta
+        </button>
+      </div>
+    </div>
+  </form>
+    
+    <!-- Script para pasar datos de productos al JavaScript -->
+    <script>
+      window.productos = <%- JSON.stringify(productos) %>;
+    </script>
     <script src="/js/form-venta.js"></script>
+    
       <table class="table mt-3">
         <thead>
           <tr>

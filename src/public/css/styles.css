@@ -20,3 +20,23 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: number-input;
 }
+
+/* Estilos para formulario de ventas */
+.detalle-item {
+  border-left: 3px solid #007bff;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+
+.detalle-item.incompleto {
+  border-left-color: #ffc107;
+  background-color: #fff3cd;
+}
+
+#agregar-detalle:disabled {
+  cursor: not-allowed;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.8;
+}
