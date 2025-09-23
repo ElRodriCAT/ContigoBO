@@ -79,20 +79,23 @@ document.addEventListener('DOMContentLoaded', function() {
     detalleDiv.id = `detalle-${contadorDetalles}`;
     
     detalleDiv.innerHTML = `
-      <div>
-        <select class="producto-select" required>
+      <div class="mb-2">
+        <label class="form-label">Producto</label>
+        <select class="producto-select form-select" required>
           <option value="">Seleccionar producto...</option>
           ${productos.map(p => `<option value="${p.id}" data-precio="${p.precio}">${p.nombre} - $${p.precio}</option>`).join('')}
         </select>
       </div>
-      <div>
-        <input type="number" class="cantidad-input" placeholder="Cantidad" min="1" step="1" required>
+      <div class="mb-2">
+        <label class="form-label">Cantidad</label>
+        <input type="number" class="cantidad-input form-control" placeholder="Cantidad" min="1" step="1" required>
       </div>
-      <div>
-        <input type="number" class="precio-input" placeholder="Precio unitario" min="0" step="0.01" required>
+      <div class="mb-2">
+        <label class="form-label">Precio unitario</label>
+        <input type="number" class="precio-input form-control" placeholder="Precio unitario" min="0" step="0.01" required>
       </div>
-      <div>
-        <button type="button" class="eliminar-detalle">
+      <div class="d-grid gap-2 mb-2">
+        <button type="button" class="eliminar-detalle btn btn-warning">
           Eliminar
         </button>
       </div>

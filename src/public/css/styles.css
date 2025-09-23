@@ -1,27 +1,64 @@
-
-/* Iconos del index */
-.index-icon {
-  width: 68px;
-  height: 68px;
-  object-fit: contain;
-}
-
-/* Archivo CSS listo para tus estilos personalizados */
-*, body{
-    background-color: beige;
-}
-h1{
-    text-align: center;
-    margin-bottom: 2rem;
+*{
+  overflow-x: hidden;
 }
 .custom-card {
-      max-width: 300px;
-      transition: transform 0.2s ease-in-out;
-      border: none;
+  width: 35%;
+  min-width: 250px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+@font-face {
+  font-family: 'MiFuente';
+  src: url('/fonts/Goldman-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+body.index-bg {
+  background: url('/img/burguer-background.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+body.gradient-bg {
+  background: linear-gradient(135deg, #eaeaea 0%, #fffbe6 50%, #fff9c4 100%);
+  overflow-x: hidden;
+}
+h1{
+  font-size: 82px;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+h1, h2, h3 {
+  font-family: 'MiFuente', Arial, sans-serif;
+}
+
+.custom-card {
+  max-width: 300px;
+  transition: transform 0.2s ease-in-out;
+  border: none;
 }
 
 .custom-card:hover {
-      transform: translateY(-5px);
+  transform: translateY(-5px);
+}
+/* Iconos del index */
+.index-icon {
+  width: 30%;
+  min-width: 48px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.custom-card .btn {
+  font-size: 1.2rem;
+  padding: 0.75rem 1.5rem;
 }
 
 #form-producto, #form-ventas {
