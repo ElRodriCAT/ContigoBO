@@ -1,11 +1,6 @@
 *{
-  overflow-x: hidden;
-}
-.custom-card {
-  width: 35%;
-  min-width: 250px;
-  max-width: 500px;
-  margin: 0 auto;
+  overflow: hidden;
+
 }
 @font-face {
   font-family: 'MiFuente';
@@ -14,37 +9,38 @@
   font-style: normal;
 }
 
-
-body.index-bg {
-  background: url('/img/burguer-background.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
 body.gradient-bg {
   background: linear-gradient(135deg, #eaeaea 0%, #fffbe6 50%, #fff9c4 100%);
-  overflow-x: hidden;
 }
 h1{
   font-size: 82px;
+  color:rgb(167, 255, 120);
   text-align: center;
-  margin-bottom: 2rem;
+  background-color: #9B0216;
 }
 
 h1, h2, h3 {
   font-family: 'MiFuente', Arial, sans-serif;
 }
 
-.custom-card {
-  max-width: 300px;
-  transition: transform 0.2s ease-in-out;
-  border: none;
+.background-section {
+  background: url('/img/burguer-background.jpg') no-repeat center center;
+  background-size: cover;
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-.custom-card:hover {
-  transform: translateY(-5px);
+.custom-card {
+  width: 55%;
+  margin: 0 auto;
+  background-color: rgb(205, 252, 179);
+}
+
+.custom-card .btn {
+  font-size: 1.2rem;
+  padding: 0.75rem 1.5rem;
 }
 /* Iconos del index */
 .index-icon {
@@ -55,10 +51,6 @@ h1, h2, h3 {
   display: block;
   margin-left: auto;
   margin-right: auto;
-}
-.custom-card .btn {
-  font-size: 1.2rem;
-  padding: 0.75rem 1.5rem;
 }
 
 #form-producto, #form-ventas {
