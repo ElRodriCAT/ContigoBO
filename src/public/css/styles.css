@@ -1,4 +1,11 @@
 
+/* Iconos del index */
+.index-icon {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+}
+
 /* Archivo CSS listo para tus estilos personalizados */
 *, body{
     background-color: beige;
@@ -13,12 +20,11 @@ h1{
       border: none;
 }
 
-
 .custom-card:hover {
       transform: translateY(-5px);
 }
 
 #form-producto, #form-ventas {
-  max-width: 400px; 
+  max-width: 450px; 
   padding: 20px;
 }

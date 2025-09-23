@@ -10,7 +10,8 @@
 <body>
   <div>
     <h1>Ventas</h1>
-    <a type="button" class="btn btn-info" href="/">Volver al inicio</a>
+    
+    <a type="button" class="btn btn-info m-3 p-3" href="/">Volver al inicio</a>
 
     <form action="/api/ventas" method="POST" id="form-ventas" class="p-3">
   <!-- Información general de la venta -->
@@ -60,24 +61,43 @@
         <tr>
           <th>ID</th>
           <th>Fecha</th>
+          <th>Nombre Producto</th>
+          <th>Precio Producto</th>
           <th>Total</th>
           <th></th>
         </tr>
       </thead>
       <tbody id="tabla-ventas">
         <% if (ventas && ventas.length) { %>
-          <% ventas.forEach(venta => { %>
-            <tr data-id="<%= venta.id %>">
-              <td><%= venta.id %></td>
-              <td><%= venta.fecha ? new Date(venta.fecha).toLocaleString() : '' %></td>
-              <td><%= venta.total %></td>
-              <td>
-                <button type="button" class="eliminar-venta">Eliminar</button>
-              </td>
-            </tr>
-          <% }) %>
+          <% ventas.forEach(venta => {
+            const detalles = venta.detalles || [];
+            if (detalles.length) {
+              detalles.forEach((detalle, idx) => { %>
+                <tr data-id="<%= venta.id %>">
+                  <% if (idx === 0) { %>
+                    <td rowspan="<%= detalles.length %>"><%= venta.id %></td>
+                    <td rowspan="<%= detalles.length %>"><%= venta.fecha ? new Date(venta.fecha).toLocaleString() : '' %></td>
+                  <% } %>
+                  <td><%= detalle.producto ? detalle.producto.nombre : 'Producto eliminado' %></td>
+                  <td>$<%= detalle.precio %> x <%= detalle.cantidad %></td>
+                  <% if (idx === 0) { %>
+                    <td rowspan="<%= detalles.length %>"><%= venta.total %></td>
+                    <td rowspan="<%= detalles.length %>"><button type="button" class="eliminar-venta">Eliminar</button></td>
+                  <% } %>
+                </tr>
+              <% });
+            } else { %>
+              <tr data-id="<%= venta.id %>">
+                <td><%= venta.id %></td>
+                <td><%= venta.fecha ? new Date(venta.fecha).toLocaleString() : '' %></td>
+                <td colspan="2">Sin productos</td>
+                <td><%= venta.total %></td>
+                <td><button type="button" class="eliminar-venta">Eliminar</button></td>
+              </tr>
+            <% }
+          }) %>
         <% } else { %>
-          <tr><td colspan="4">No hay ventas</td></tr>
+          <tr><td colspan="6">No hay ventas</td></tr>
         <% } %>
       </tbody>
     </table>
