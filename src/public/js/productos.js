@@ -38,6 +38,9 @@ async function eliminarProducto(id, fila) {
       setTimeout(() => {
         fila.remove();
         mostrarMensaje('Producto eliminado correctamente', 'success');
+        // Forzar repaint en Electron
+        document.body.style.display = 'none';
+        setTimeout(() => { document.body.style.display = ''; }, 10);
       }, 300);
     } else {
       // Mostrar error específico

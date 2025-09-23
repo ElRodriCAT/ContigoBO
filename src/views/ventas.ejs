@@ -12,46 +12,42 @@
     <h1>Ventas</h1>
     <a type="button" class="btn btn-info" href="/">Volver al inicio</a>
 
-    <form action="/api/ventas" method="POST" id="form-venta">
-      <!-- Información general de la venta -->
-      <div>
-        <div>
-          <label>Fecha</label>
-          <input type="datetime-local" name="fecha">
-        </div>
-        <div>
-          <label>Total</label>
-          <input type="number" name="total" placeholder="0.00" min="0" step="0.01" readonly>
-        </div>
-      </div>
+    <form action="/api/ventas" method="POST" id="form-ventas" class="p-3">
+  <!-- Información general de la venta -->
+  <div class="mb-3">
+    <label for="fecha" class="form-label">Fecha</label>
+    <input type="datetime-local" id="fecha" name="fecha" class="form-control">
+  </div>
 
-      <!-- Detalles de la venta -->
-      <div>
-        <div>
-          <h5>Detalles de la Venta</h5>
-          <button type="button" id="agregar-detalle">
-            Agregar Producto
-          </button>
-        </div>
-        <div>
-          <div id="detalles-container">
-            <!-- Los detalles se agregarán dinámicamente aquí -->
-          </div>
-          <div id="no-detalles">
-            No hay productos agregados. Haz clic en "Agregar Producto" para empezar.
-          </div>
-        </div>
-      </div>
+  <div class="mb-3">
+    <label for="total" class="form-label">Total</label>
+    <input type="number" id="total" name="total" class="form-control" placeholder="0.00" min="0" step="0.01" readonly>
+  </div>
 
-      <!-- Botón de envío -->
-      <div>
-        <div>
-          <button type="submit" id="btn-crear-venta" disabled>
-            Crear Venta
-          </button>
-        </div>
-      </div>
-    </form>
+  <!-- Detalles de la venta -->
+  <div class="mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5 class="mb-0">Detalles de la Venta</h5>
+      <button type="button" id="agregar-detalle" class="btn btn-sm btn-success">
+        Agregar Producto
+      </button>
+    </div>
+
+    <div id="detalles-container" class="mb-2">
+      <!-- Los detalles se agregarán dinámicamente aquí -->
+    </div>
+
+
+  </div>
+
+  <!-- Botón de envío -->
+  <div class="d-grid">
+    <button type="submit" id="btn-crear-venta" class="btn btn-primary" disabled>
+      Crear Venta
+    </button>
+  </div>
+</form>
+
     
     <!-- Script para pasar datos de productos al JavaScript -->
     <script>
