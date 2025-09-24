@@ -12,8 +12,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Rutas
 const productoRoutes = require('./routes/producto');
 const ventaRoutes = require('./routes/venta');
+const estadisticaRoutes = require('./routes/estadistica');
 app.use('/api/productos', productoRoutes);
 app.use('/api/ventas', ventaRoutes);
+app.use('/api/estadisticas', estadisticaRoutes);
 
 // Vista principal y otras vistas
 
@@ -43,6 +45,11 @@ app.get(['/ventas', '/ventas.html'], async (req, res) => {
   });
   const productos = await prisma.producto.findMany();
   res.render('ventas', { ventas, productos });
+});
+
+app.get(['/estadisticas', '/estadisticas.html'], async (req, res) => {
+  const estadisticaController = require('./controllers/estadisticaController');
+  await estadisticaController.obtenerEstadisticas(req, res);
 });
 
 const PORT = process.env.PORT || 3000;

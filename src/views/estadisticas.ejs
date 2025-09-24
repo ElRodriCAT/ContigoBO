@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estadísticas</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="gradient-bg">
+  <div>
+    <h1>Estadísticas</h1>
+    <a type="button" class="btn btn-info m-3 p-3" href="/">Volver al inicio</a>
+
+    <!-- Tarjetas de resumen -->
+    <div class="container mb-4 stats-cards">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Ventas Totales</h5>
+              <h2 class="text-primary"><%= estadisticas.totalVentas %></h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Ingresos Totales</h5>
+              <h2 class="text-success">$<%= estadisticas.ingresoTotal.toFixed(2) %></h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Ventas Hoy</h5>
+              <h2 class="text-warning"><%= estadisticas.ventasHoy %></h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráficos principales -->
+    <div class="container">
+      <div class="row">
+        <!-- Ventas Diarias -->
+        <div class="col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">Ventas Diarias (Últimos 15 días)</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="ventasDiariasChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ventas Mensuales -->
+        <div class="col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">Ventas Mensuales</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="ventasMensualesChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Ventas Anuales -->
+        <div class="col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">Ventas Anuales</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="ventasAnualesChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Productos Más Populares -->
+        <div class="col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">Productos Más Vendidos</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="productosPopularesChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script para pasar datos al JavaScript -->
+    <script>
+      window.estadisticas = <%- JSON.stringify(estadisticas) %>;
+    </script>
+    <script src="/js/estadisticas.js"></script>
+  </div>
+</body>
+</html>
