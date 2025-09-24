@@ -95,37 +95,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Gráfico de Ventas Anuales (Barras horizontales)
+  // Gráfico de Ventas Anuales (Barras)
   const ctxAnuales = document.getElementById('ventasAnualesChart').getContext('2d');
   new Chart(ctxAnuales, {
-    type: 'doughnut',
+    type: 'bar',
     data: {
       labels: stats.ventasAnuales.map(item => item.año.toString()),
       datasets: [{
         label: 'Ventas Anuales ($)',
         data: stats.ventasAnuales.map(item => item.total),
-        backgroundColor: [
-          colores.primario,
-          colores.secundario,
-          colores.advertencia
-        ],
-        borderColor: '#fff',
-        borderWidth: 2
+        backgroundColor: colores.advertencia,
+        borderColor: colores.advertencia,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderSkipped: false
       }]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      ...configBase,
       plugins: {
-        legend: {
-          position: 'right',
-        },
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              return context.label + ': $' + context.raw.toLocaleString();
-            }
-          }
+        ...configBase.plugins,
+        title: {
+          display: false
         }
       }
     }
@@ -134,18 +125,18 @@ document.addEventListener('DOMContentLoaded', function() {
   // Gráfico de Productos Populares (Barras horizontales)
   const ctxProductos = document.getElementById('productosPopularesChart').getContext('2d');
   new Chart(ctxProductos, {
-    type: 'polarArea',
+    type: 'bar',
     data: {
       labels: stats.productosPopulares.map(item => item.producto),
       datasets: [{
-        label: 'Cantidad Vendida',
+        label: 'Cantidad Vendida (unidades)',
         data: stats.productosPopulares.map(item => item.cantidad),
         backgroundColor: [
-          colores.primario + '80',
-          colores.secundario + '80',
-          colores.advertencia + '80',
-          colores.peligro + '80',
-          colores.info + '80'
+          colores.primario,
+          colores.secundario,
+          colores.advertencia,
+          colores.peligro,
+          colores.info
         ],
         borderColor: [
           colores.primario,
@@ -154,7 +145,9 @@ document.addEventListener('DOMContentLoaded', function() {
           colores.peligro,
           colores.info
         ],
-        borderWidth: 2
+        borderWidth: 1,
+        borderRadius: 5,
+        borderSkipped: false
       }]
     },
     options: {
@@ -162,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          position: 'bottom',
+          display: false
         },
         tooltip: {
           callbacks: {
@@ -173,10 +166,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       },
       scales: {
-        r: {
+        y: {
           beginAtZero: true,
           ticks: {
-            stepSize: 1
+            stepSize: 1,
+            callback: function(value) {
+              return value + ' unidades';
+            }
+          }
+        },
+        x: {
+          ticks: {
+            maxRotation: 45,
+            minRotation: 0
           }
         }
       }
