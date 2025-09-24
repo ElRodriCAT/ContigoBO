@@ -73,9 +73,9 @@ document.addEventListener('DOMContentLoaded', function() {
   new Chart(ctxMensuales, {
     type: 'bar',
     data: {
-      labels: stats.ventasMensuales.map(item => item.mes),
+      labels: stats.ventasMensuales.map(item => item.fecha),
       datasets: [{
-        label: 'Ventas Mensuales ($)',
+        label: 'Ventas del Mes ($)',
         data: stats.ventasMensuales.map(item => item.total),
         backgroundColor: colores.secundario,
         borderColor: colores.secundario,
@@ -187,3 +187,98 @@ document.addEventListener('DOMContentLoaded', function() {
 
   console.log('Gráficos de estadísticas cargados correctamente');
 });
+
+// Eliminación defensiva de spinners/controles que puedan quedar sobre los charts
+document.addEventListener('DOMContentLoaded', function() {
+  // Selector amplio para capturar varios tipos de controles que podrían aparecer
+  const selectors = [
+    '.chart-container input[type=number]',
+    '.chart-container [role="spinbutton"]',
+    '.chart-container .spinner',
+    '.chart-container .number-spinner',
+    '.chart-container button',
+    '.chart-container [aria-valuenow]'
+  ];
+
+  selectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      try {
+        // quitar del DOM
+        if (el && el.parentNode) el.parentNode.removeChild(el);
+      } catch (e) {
+        // fallback: ocultar
+        if (el) {
+          el.style.display = 'none';
+          el.style.visibility = 'hidden';
+          el.style.pointerEvents = 'none';
+        }
+      }
+    });
+  });
+});
+
+// Observador para eliminar elementos que se inyecten dinámicamente dentro de los charts
+(function() {
+  const containers = document.querySelectorAll('.chart-container');
+  if (!containers || containers.length === 0) return;
+
+  const suspectSelector = 'input[type=number], [role="spinbutton"], .spinner, .number-spinner, button, [aria-valuenow]';
+
+  const observerConfig = { childList: true, subtree: true };
+
+  const callback = function(mutationsList) {
+    for (const mutation of mutationsList) {
+      mutation.addedNodes.forEach(node => {
+        try {
+          if (!(node instanceof HTMLElement)) return;
+          if (node.matches && node.matches(suspectSelector)) {
+            node.remove();
+            return;
+          }
+          // también comprobar descendientes
+          node.querySelectorAll && node.querySelectorAll(suspectSelector).forEach(el => el.remove());
+        } catch (e) {
+          // ignorar
+        }
+      });
+    }
+  };
+
+  containers.forEach(cont => {
+    const obs = new MutationObserver(callback);
+    obs.observe(cont, observerConfig);
+  });
+})();
+
+// Limpieza heurística: eliminar elementos pequeños (posibles controls) dentro de headers y chart containers
+(function() {
+  function removeSmallControls(rootSelector) {
+    document.querySelectorAll(rootSelector).forEach(root => {
+      root.querySelectorAll('*').forEach(el => {
+        try {
+          if (!(el instanceof HTMLElement)) return;
+          const rect = el.getBoundingClientRect();
+          // si es muy pequeño y no tiene texto útil, removerlo
+          if (rect.width <= 28 && rect.height <= 28) {
+            const text = (el.textContent || '').trim();
+            const aria = el.getAttribute && (el.getAttribute('aria-label') || el.getAttribute('role'));
+            if (!text && !aria) {
+              el.remove();
+            }
+          }
+        } catch (e) {
+          // ignore
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    removeSmallControls('.card-header');
+    removeSmallControls('.chart-container');
+
+    // y ejecutar periódicamente un par de veces por si se inyectan tarde
+    setTimeout(() => removeSmallControls('.card-header'), 300);
+    setTimeout(() => removeSmallControls('.chart-container'), 600);
+  });
+})();

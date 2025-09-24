@@ -18,26 +18,30 @@ exports.obtenerEstadisticas = async (req, res) => {
       }
     });
 
-    // Estadísticas diarias (últimos 30 días)
+    // Estadísticas diarias: ventas de la semana en curso (7 días)
+    // Se asume inicio de semana: Lunes (locale es-ES)
     const ventasDiarias = {};
-    const fechaInicio = new Date();
-    fechaInicio.setDate(fechaInicio.getDate() - 30);
-
-    // Inicializar últimos 30 días con 0
-    for (let i = 0; i < 30; i++) {
-      const fecha = new Date(fechaInicio);
-      fecha.setDate(fecha.getDate() + i);
+    const hoy = new Date();
+    // getDay: 0 (Dom) .. 6 (Sab). Convertir a índice donde 0 = Lunes
+    const diaSemanaIndice = (hoy.getDay() + 6) % 7; // 0..6, 0 = Lunes
+    const inicioSemana = new Date(hoy);
+    inicioSemana.setDate(hoy.getDate() - diaSemanaIndice);
+    // Inicializar los 7 días de la semana
+    for (let i = 0; i < 7; i++) {
+      const fecha = new Date(inicioSemana);
+      fecha.setDate(inicioSemana.getDate() + i);
       const fechaStr = fecha.toISOString().split('T')[0];
       ventasDiarias[fechaStr] = 0;
     }
 
-    // Estadísticas mensuales (últimos 12 meses)
+    // Estadísticas mensuales: desglose por día del mes en curso
     const ventasMensuales = {};
-    for (let i = 0; i < 12; i++) {
-      const fecha = new Date();
-      fecha.setMonth(fecha.getMonth() - i);
-      const mesStr = `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2, '0')}`;
-      ventasMensuales[mesStr] = 0;
+    const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+    const ultimoDiaMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
+    for (let d = 1; d <= ultimoDiaMes; d++) {
+      const fecha = new Date(hoy.getFullYear(), hoy.getMonth(), d);
+      const fechaStr = fecha.toISOString().split('T')[0];
+      ventasMensuales[fechaStr] = 0;
     }
 
     // Estadísticas anuales (últimos 3 años)
@@ -51,16 +55,15 @@ exports.obtenerEstadisticas = async (req, res) => {
     ventas.forEach(venta => {
       const fechaVenta = new Date(venta.fecha);
       
-      // Ventas diarias
+      // Ventas diarias (semana actual)
       const fechaStr = fechaVenta.toISOString().split('T')[0];
       if (ventasDiarias.hasOwnProperty(fechaStr)) {
         ventasDiarias[fechaStr] += venta.total;
       }
 
-      // Ventas mensuales
-      const mesStr = `${fechaVenta.getFullYear()}-${String(fechaVenta.getMonth() + 1).padStart(2, '0')}`;
-      if (ventasMensuales.hasOwnProperty(mesStr)) {
-        ventasMensuales[mesStr] += venta.total;
+      // Ventas mensuales (por día del mes en curso)
+      if (ventasMensuales.hasOwnProperty(fechaStr)) {
+        ventasMensuales[fechaStr] += venta.total;
       }
 
       // Ventas anuales
@@ -123,12 +126,14 @@ exports.obtenerEstadisticas = async (req, res) => {
     }
 
     const estadisticas = {
-      ventasDiarias: Object.entries(ventasDiarias).slice(-15).map(([fecha, total]) => ({
-        fecha: new Date(fecha).toLocaleDateString('es-ES', { month: 'short', day: 'numeric' }),
+      // Mostrar la semana en curso (7 dias). Formato: 'lun 22'
+      ventasDiarias: Object.entries(ventasDiarias).map(([fecha, total]) => ({
+        fecha: new Date(fecha).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric' }),
         total: parseFloat(total.toFixed(2))
       })),
-      ventasMensuales: Object.entries(ventasMensuales).reverse().slice(0, 6).map(([mes, total]) => ({
-        mes: new Date(mes + '-01').toLocaleDateString('es-ES', { year: 'numeric', month: 'long' }),
+      // Mostrar el mes en curso desglosado por día
+      ventasMensuales: Object.entries(ventasMensuales).map(([fecha, total]) => ({
+        fecha: new Date(fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }),
         total: parseFloat(total.toFixed(2))
       })),
       ventasAnuales: Object.entries(ventasAnuales).map(([año, total]) => ({

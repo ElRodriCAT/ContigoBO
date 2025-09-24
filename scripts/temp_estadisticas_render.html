@@ -29,7 +29,7 @@
           <div class="card text-center">
             <div class="card-body">
               <h5 class="card-title">Ventas Totales</h5>
-              <h2 class="text-primary"><%= estadisticas.totalVentas %></h2>
+              <h2 class="text-primary">19</h2>
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@
           <div class="card text-center">
             <div class="card-body">
               <h5 class="card-title">Ingresos Totales</h5>
-              <h2 class="text-success">$<%= estadisticas.ingresoTotal.toFixed(2) %></h2>
+              <h2 class="text-success">$87625.45</h2>
             </div>
           </div>
         </div>
@@ -45,7 +45,7 @@
           <div class="card text-center">
             <div class="card-body">
               <h5 class="card-title">Ventas Hoy</h5>
-              <h2 class="text-warning"><%= estadisticas.ventasHoy %></h2>
+              <h2 class="text-warning">0</h2>
             </div>
           </div>
         </div>
@@ -116,7 +116,7 @@
 
     <!-- Script para pasar datos al JavaScript -->
     <script>
-      window.estadisticas = <%- JSON.stringify(estadisticas) %>;
+      window.estadisticas = {"ventasDiarias":[{"fecha":"dom 21","total":0},{"fecha":"lun 22","total":0},{"fecha":"mar 23","total":0},{"fecha":"mié 24","total":0},{"fecha":"jue 25","total":0},{"fecha":"vie 26","total":0},{"fecha":"sáb 27","total":0}],"ventasMensuales":[{"fecha":"31 ago","total":82.95},{"fecha":"1 sept","total":34.6},{"fecha":"2 sept","total":47.4},{"fecha":"3 sept","total":9532.65},{"fecha":"4 sept","total":0},{"fecha":"5 sept","total":133.05},{"fecha":"6 sept","total":0},{"fecha":"7 sept","total":28522.1},{"fecha":"8 sept","total":0},{"fecha":"9 sept","total":0},{"fecha":"10 sept","total":73.2},{"fecha":"11 sept","total":25},{"fecha":"12 sept","total":0},{"fecha":"13 sept","total":19023.9},{"fecha":"14 sept","total":0},{"fecha":"15 sept","total":0},{"fecha":"16 sept","total":0},{"fecha":"17 sept","total":28590},{"fecha":"18 sept","total":1320},{"fecha":"19 sept","total":0},{"fecha":"20 sept","total":0},{"fecha":"21 sept","total":0},{"fecha":"22 sept","total":0},{"fecha":"23 sept","total":0},{"fecha":"24 sept","total":0},{"fecha":"25 sept","total":0},{"fecha":"26 sept","total":0},{"fecha":"27 sept","total":0},{"fecha":"28 sept","total":0},{"fecha":"29 sept","total":0}],"ventasAnuales":[{"año":2025,"total":87625.45},{"año":2024,"total":0},{"año":2023,"total":0}],"productosPopulares":[{"producto":"Hamburguesa","cantidad":49},{"producto":"Bebida Cola","cantidad":16},{"producto":"Hamburguesa Clásica","cantidad":12},{"producto":"Papas Fritas","cantidad":10},{"producto":"Hamburguesa BBQ","cantidad":10}],"totalVentas":19,"ingresoTotal":87625.44999999998,"ventasHoy":0};
       
       function descargarExcel() {
         window.location.href = '/api/estadisticas/exportar';

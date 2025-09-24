@@ -2,7 +2,6 @@ const { PrismaClient } = require('./generated/prisma');
 const prisma = new PrismaClient();
 
 async function main() {
-  // Crear productos de ejemplo
   const producto1 = await prisma.producto.create({
     data: { nombre: 'Hamburguesa', precio: 30, stock: 50 }
   });
@@ -13,7 +12,6 @@ async function main() {
     data: { nombre: 'Gaseosa', precio: 10, stock: 80 }
   });
 
-  // Crear una venta de ejemplo
   const venta1 = await prisma.venta.create({
     data: {
       total: 55,

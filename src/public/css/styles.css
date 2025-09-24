@@ -28,6 +28,7 @@ h1, h2, h3 {
   background-size: cover;
   width: 100vw;
   min-height: 100vh;
+  position: relative;
   margin: 0;
   padding: 0;
 }
@@ -69,13 +70,134 @@ h1, h2, h3 {
   height: 300px;
 }
 
+/* Forzar ocultado de cualquier scrollbar/spinner dentro del contenedor de charts
+   útil para Chrome/Electron donde algunas decoraciones nativas pueden mostrarse */
+.chart-container {
+  overflow: hidden !important;
+}
+
+.chart-container::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.chart-container *::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Asegurar que inputs numéricos dentro de chart-container no muestren controles */
+.chart-container input[type=number] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: textfield !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+}
+
 .card-header {
   background-color: #28a745;
   color: white;
   font-weight: bold;
 }
 
+/* Evitar que aparezcan botones de scrollbar/spinners en los headers de las tarjetas */
+.card-header {
+  overflow: hidden !important;
+}
+
+.card-header::-webkit-scrollbar,
+.card-header *::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.card-header *::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Ocultar elementos interactivos/residuos que pudieran aparecer dentro del header */
+.card-header input,
+.card-header button,
+.card-header [role="spinbutton"],
+.card-header .spinner,
+.card-header .number-spinner {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Evitar pseudoelementos que puedan dibujar controles dentro del header */
+.card-header::before,
+.card-header::after,
+.card-header *::before,
+.card-header *::after {
+  content: none !important;
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 .container .card {
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
+}
+
+/* Ajustes específicos para el hero de estadísticas */
+.background-section h1 {
+  /* Usar la misma configuración que el h1 global para mantener consistencia */
+  display: block;
+  width: 100%;
+  font-size: 82px;
+  color: rgb(167, 255, 120);
+  text-align: center;
+  background-color: #9B0216;
+  margin: 0;
+  padding: 30px 0;
+}
+
+.background-section .btn.position-absolute.end-0.bottom-0 {
+  z-index: 20;
+}
+
+/* Ocultar flechas/spinners de inputs numéricos (Chrome, Edge, Safari, Firefox) */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  appearance: none;
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Asegurar que no se muestren controles numéricos dentro de los gráficos */
+.chart-container input[type=number],
+.chart-container .spinner,
+.chart-container .number-spinner {
+  display: none !important;
+}
+
+/* Ocultar botones del scrollbar en WebKit dentro de chart-container (si aparecen como flechas) */
+.chart-container *::-webkit-scrollbar-button {
+  display: none !important;
+}
+
+/* Asegurar que ningún botón o input aparezca encima del canvas */
+.chart-container button,
+.chart-container input,
+.chart-container .btn,
+.chart-container .control,
+.chart-container [role="spinbutton"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
