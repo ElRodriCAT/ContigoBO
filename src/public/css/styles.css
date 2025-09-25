@@ -201,3 +201,29 @@ input[type=number] {
   visibility: hidden !important;
   pointer-events: none !important;
 }
+
+/* Ocultar spinners y controles no deseados en la vista de ventas (detalles) */
+#form-ventas input[type=number]::-webkit-outer-spin-button,
+#form-ventas input[type=number]::-webkit-inner-spin-button,
+#detalles-container input[type=number]::-webkit-outer-spin-button,
+#detalles-container input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+#form-ventas input[type=number],
+#detalles-container input[type=number] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: textfield !important;
+}
+
+/* Ocultar cualquier control inyectado en los headers de las cards estadísticas */
+.stats-cards .card-header input,
+.stats-cards .card-header button,
+.stats-cards .card-header [role="spinbutton"],
+.stats-cards .card-header .spinner {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

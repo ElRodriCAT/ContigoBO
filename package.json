@@ -9,19 +9,50 @@
   },
   "name": "cbo",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "src/main.js",
   "devDependencies": {
     "electron": "^38.1.2",
-    "prisma": "^6.16.2"
+    "prisma": "^6.16.2",
+    "esbuild": "^0.18.17",
+    "fs-extra": "^11.1.1",
+    "electron-builder": "^23.6.0",
+    "electron-rebuild": "^3.2.9"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
+  "start:legacy": "electron main.dev.js",
     "serve": "node src/app.js",
-    "start:all": "npm-run-all --parallel serve start"
+    "start:all": "npm-run-all --parallel serve start",
+    "build:renderer": "node scripts/build-renderer.js",
+  "build": "npm run build:renderer",
+    "dist": "electron-builder --win --x64"
   },
+  "postinstall": "prisma generate && npx electron-rebuild -f -w @prisma/client,sqlite3",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": ""
+  ,
+  "build": {
+    "appId": "com.contigo.backoffice",
+    "productName": "ContigoBO",
+    "files": [
+      "src/**",
+      "package.json",
+      "node_modules/**"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/**/query_engine-windows.dll.node",
+      "node_modules/**/query_engine-windows.dll.node.*"
+    ],
+    "directories": {
+      "buildResources": "buildResources"
+    },
+    "win": {
+      "target": ["nsis", "portable"]
+    },
+    "compression": "maximum"
+  }
 }

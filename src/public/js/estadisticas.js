@@ -200,6 +200,19 @@ document.addEventListener('DOMContentLoaded', function() {
     '.chart-container [aria-valuenow]'
   ];
 
+  // Also target ventas form and details container and stats cards headers
+  const extraSelectors = [
+    '#form-ventas input[type=number]',
+    '#detalles-container input[type=number]',
+    '#form-ventas [role="spinbutton"]',
+    '#detalles-container [role="spinbutton"]',
+    '.stats-cards .card-header [role="spinbutton"]',
+    '.stats-cards .card-header input',
+    '.stats-cards .card-header button'
+  ];
+
+  selectors.push(...extraSelectors);
+
   selectors.forEach(sel => {
     document.querySelectorAll(sel).forEach(el => {
       try {
@@ -219,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Observador para eliminar elementos que se inyecten dinámicamente dentro de los charts
 (function() {
-  const containers = document.querySelectorAll('.chart-container');
+  const containers = document.querySelectorAll('.chart-container, #form-ventas, #detalles-container, .stats-cards .card-header');
   if (!containers || containers.length === 0) return;
 
   const suspectSelector = 'input[type=number], [role="spinbutton"], .spinner, .number-spinner, button, [aria-valuenow]';
@@ -274,8 +287,11 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    removeSmallControls('.card-header');
-    removeSmallControls('.chart-container');
+  removeSmallControls('.card-header');
+  removeSmallControls('.chart-container');
+  removeSmallControls('#form-ventas');
+  removeSmallControls('#detalles-container');
+  removeSmallControls('.stats-cards .card-header');
 
     // y ejecutar periódicamente un par de veces por si se inyectan tarde
     setTimeout(() => removeSmallControls('.card-header'), 300);
